@@ -10,7 +10,7 @@ class Task:
         status = "Completed" if self.completed else "Pending"
         desc = self.description if self.description else "No description"
         
-        return f"Task: {self.title} | Status: {status} | Due Date: {self.due_date.date()} | Description: {desc}"
+        return f"Task: {self.title} | Status: {status} | Due Date: {self.due_date} | Description: {desc}"
     def mark_completed(self) -> None:
         self.completed = True
     def change_title(self, new_title) -> None:

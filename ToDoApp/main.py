@@ -33,12 +33,24 @@ def main() -> None:
             task_title = input("Enter title of task: ")
             # task_list.add_task(task)
             task_description = input("Enter the description: ")
-            input_date = input("Enter a due date (YYYY-MM-DD): ")
-            due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
-            task = Task(task_title, task_description, due_date)
+            
+            while True :
+                input_date = input("Enter a due date (YYYY-MM-DD): ")
+                due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d").date()
+                # Check if the date is in the past
+                if due_date < datetime.date.today():
+                    print("This date has already passed. Please enter an upcoming one.\n")
+                else:
+                    task = Task(task_title, task_description, due_date)
+                    task_list.add_task(task)
+                    print(f"'{task_title}' has been added to your to-do list.\n")
+                    break  # Date is valid and in the future, exit the loop
+
+            # input_date = input("Enter a due date (YYYY-MM-DD): ")
+            
+            # due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
             # task = Task (task_title, task_description, None)
-            task_list.add_task(task)
-            print(f"'{task_title}' has been added to your to-do list.\n")
+            
             print("-"*40)
 
         elif choice == "2":
