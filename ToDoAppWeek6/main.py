@@ -5,6 +5,7 @@ from task_list import TaskList
 from task import Task
 import datetime
 from recurring_task import RecurringTask
+from TaskTestDAO import TaskTestDAO
 
 # function to add spacing
 def spacing():
@@ -32,10 +33,10 @@ def main() -> None:
     name = input("Enter your name: ")
     
     task_list = TaskList(name)
-    task1 = Task("Buy groceries", "Milk, Eggs, Bread", datetime.date.today())
-    task2 = Task("Submit assignment", "OOP Week 4", datetime.date.today() + datetime.timedelta(days=2))
-    task_list.add_task(task1)
-    task_list.add_task(task2)
+    # task1 = Task("Buy groceries", "Milk, Eggs, Bread", datetime.date.today())
+    # task2 = Task("Submit assignment", "OOP Week 4", datetime.date.today() + datetime.timedelta(days=2))
+    # task_list.add_task(task1)
+    # task_list.add_task(task2)
     print("\n")
     while True: 
         
@@ -49,7 +50,9 @@ def main() -> None:
         print("6. Change description of task")
         print("7. Show over due tasks")
         print("8. Change Due date of task")
-        print("9. Quit") 
+        print("9. Load Tasks from CSV")
+        print("10. Save Tasks to CSV")
+        print("11. Quit") 
             
         choice = input("Enter your choice: ") 
         print("\n")
@@ -213,7 +216,29 @@ def main() -> None:
                         continue
                 else:
                     print("Invalid input. Please enter a number like 1, 2, 3...")
+        
         elif choice == "9":
+            # load data from file
+            
+            # get path of file - input fro user
+            path = input("Enter file path to load tasks e.g. tasks.txt: ")
+            dao = TaskTestDAO(path)
+            
+            # Load tasks from DAO and add to task list
+            loaded_tasks = dao.get_all_tasks()
+            for task in loaded_tasks:
+                task_list.add_task(task)
+            print('loading data from file...')
+            
+        elif choice == "10":
+            path = input("Enter file path to save tasks (e.g. tasks.txt): ")
+    
+            # Create DAO and pass current tasks to save (it won’t really save as method is empty)
+            
+            dao = TaskTestDAO(path)
+            dao.save_all_tasks(task_list.tasks)
+            print('saving data to file...')
+        elif choice == "11":
             # quit
             print("Goodbye! Your to-do list has been closed.")
             spacing()
@@ -232,4 +257,3 @@ if __name__ == "__main__":
     
     
 # due date and completed dates is remaining from week 5 and the tasks after it are also remaining
-# something related to propagating tasks in main module is not done yet
