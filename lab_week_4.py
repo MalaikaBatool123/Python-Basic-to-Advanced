@@ -1,22 +1,31 @@
 """ 
 This file container code for To do List Manager application using OOP concepts
 """
+
+import datetime
+
 def spacing():
     print("\n")
     print("-"*40)
     print("\n")
 class Task:
-    def __init__(self, title, description):
+    def __init__(self, title, description, due_date):
         self.title = title
         self.description = description
         self.completed = False
+        self.date_created = datetime.datetime.now()
+        self.due_date = due_date
     def __str__(self):
         status = "Completed" if self.completed else "Pending"
-        return f"Task: {self.title} | Status: {status} | Description: {self.description}"
+        
+        return f"Task: {self.title} | Status: {status} | Due Date: {self.due_date} | Description: {self.description}"
     def mark_completed(self):
         self.completed = True
     def change_title(self, new_title):
         self.title = new_title
+    def change_due_date(self, new_date):
+        
+        self.due_date = new_date
 
 class TaskList:
     # tasks = list[Task]
@@ -28,11 +37,10 @@ class TaskList:
          # Add a task to the list
         self.tasks.append(task)
     def remove_task(self,index):
+        # not done yet
         # Remove a task by its index (user sees 1-based index)
         # 
         if index >= 1 and index <= len(self.tasks):
-            # removed = self.tasks.delete(index)
-            # print(f"Removed: {removed.title}")
             print("index: ", index)
             print("len: ", len(self.tasks))
             print("self.tasks[index-1]: ", self.tasks[index-1])
@@ -72,7 +80,10 @@ class TaskList:
                 task_title = input("Enter title of task: ")
                 # self.add_task(task)
                 task_description = input("Enter the description: ")
-                task = Task(task_title, task_description)
+                input_date = input("Enter a due date (YYYY-MM-DD): ")
+                due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
+                task = Task(task_title, task_description, due_date)
+                # task = Task (task_title, task_description, None)
                 self.add_task(task)
                 print(f"'{task_title}' has been added to your to-do list.\n")
                 print("-"*40)
@@ -102,8 +113,24 @@ class TaskList:
                     print("-"*40)
                     print("\n")
                     continue
-                index = int(input("Enter the number of the task to mark as completed: "))
-                self.tasks[index-1].mark_completed()
+                while True:
+                    index = input("Enter the number of the task to mark as completed: ")
+
+                    if index.isdigit():
+                        # Convert to actual integer
+                        index = int(index)  
+                        if index > 0 and index <= len(self.tasks) :
+                            self.tasks[index-1].mark_completed()
+                            break  # Exit the loop since input is valid
+                        else:
+                            print("Invalid task number. Please try again.\n")
+                            continue
+                            
+                    else:
+                        print("Invalid input. Please enter a number like 1, 2, 3...")
+                
+                # index = int(input("Enter the number of the task to mark as completed: "))
+                # self.tasks[index-1].mark_completed()
                 spacing()
             elif choice == "5":
                 self.view_tasks()
@@ -112,9 +139,23 @@ class TaskList:
                     # print("There are no tasks available\n")
                     spacing()
                     continue
-                index = int(input("Enter the number of the task to change title: "))
-                new_title = input("Enter the new title: ")
-                self.tasks[index-1].change_title(new_title)
+                while True:
+                    index = input("Enter the number of the task to change title: ")
+
+                    if index.isdigit():
+                        # Convert to actual integer
+                        index = int(index)  
+                        if index > 0 and index <= len(self.tasks) :
+                            new_title = input("Enter the new title: ")
+                            self.tasks[index-1].change_title(new_title)
+                            break  # Exit the loop since input is valid
+                        else:
+                            print("Invalid task number. Please try again.\n")
+                            continue
+                            
+                    else:
+                        print("Invalid input. Please enter a number like 1, 2, 3...")
+                
                 spacing()
             elif choice == "6":
                 print("Goodbye! Your to-do list has been closed.")
