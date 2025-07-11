@@ -12,6 +12,19 @@ def spacing():
     print("-"*40)
     print("\n")
 
+def get_task_details(task_list):
+    task_title = input("Enter title of task: ")
+    # task_list.add_task(task)
+    task_description = input("Enter the description: ")
+    
+    while True :
+        input_date = input("Enter a due date (YYYY-MM-DD): ")
+        due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d").date()
+        # task = Task(task_title, task_description, due_date)
+        # task_list.add_task(task)
+        # print(f"'{task_title}' has been added to your to-do list.\n")
+        break
+    return task_title, task_description, due_date
 def main() -> None:
     print("="*40)   
     print("----Welcome to the To-Do List Manager----\n")
@@ -35,27 +48,48 @@ def main() -> None:
         print("5. Change title of task")
         print("6. Change description of task")
         print("7. Show over due tasks")
-        print("8. Quit") 
+        print("8. Change Due date of task")
+        print("9. Quit") 
             
         choice = input("Enter your choice: ") 
         print("\n")
             
         if choice == "1":
-            task_title = input("Enter title of task: ")
-            # task_list.add_task(task)
-            task_description = input("Enter the description: ")
+            while True:
+                print("1. One Time Task")
+                print("2. Recurring Task")
+                print("3. Back")
+                
+                sub_choice = input("Enter your choice: ")
+                if sub_choice == "1":
+                    task_title, task_description, due_date = get_task_details(task_list)
+                    task = Task(task_title, task_description, due_date)
+                    task_list.add_task(task)
+                    print(f"'{task_title}' has been added to your to-do list.\n")
+                    break
+                elif sub_choice == "2":
+                    task_title, task_description, due_date = get_task_details(task_list)
+                    interval = input("Enter the interval in days: ")
+                    interval = datetime.timedelta(days=int(interval))
+                    task = RecurringTask(task_title, task_description, due_date, interval)
+                    task_list.add_task(task)
+                    print(f"'{task_title}' has been added to your to-do list.\n")
+                    break
+                elif sub_choice == "3":
+                    break
+            # get_task_details(task_list)
+            # adding tasks
+            # task_title = input("Enter title of task: ")
+            # # task_list.add_task(task)
+            # task_description = input("Enter the description: ")
             
-            while True :
-                input_date = input("Enter a due date (YYYY-MM-DD): ")
-                due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d").date()
-                # Check if the date is in the past
-                # if due_date < datetime.date.today():
-                #     print("This date has already passed. Please enter an upcoming one.\n")
-                # else:
-                task = Task(task_title, task_description, due_date)
-                task_list.add_task(task)
-                print(f"'{task_title}' has been added to your to-do list.\n")
-                break
+            # while True :
+            #     input_date = input("Enter a due date (YYYY-MM-DD): ")
+            #     due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d").date()
+            #     task = Task(task_title, task_description, due_date)
+            #     task_list.add_task(task)
+            #     print(f"'{task_title}' has been added to your to-do list.\n")
+            #     break
             print("-"*40)
 
         elif choice == "2":
@@ -159,6 +193,27 @@ def main() -> None:
             # show over due tasks
             task_list.view_over_due_tasks()
         elif choice == "8":
+            # change due date oof task
+            task_list.view_tasks()
+            print("\n")
+            while True:
+                index = input("Enter the number of the task to change due date: ")
+
+                if index.isdigit():
+                    # Convert to actual integer
+                    index = int(index)  
+                    if index > 0 and index <= len(task_list.tasks) :
+                        # get new due date
+                        new_date = input("Enter the new due date (YYYY-MM-DD): ")
+                        due_date = datetime.datetime.strptime(new_date, "%Y-%m-%d").date()
+                        task_list.tasks[index-1].change_due_date(due_date)
+                        break  # Exit the loop since input is valid
+                    else:
+                        print("Invalid task number. Please try again.\n")
+                        continue
+                else:
+                    print("Invalid input. Please enter a number like 1, 2, 3...")
+        elif choice == "9":
             # quit
             print("Goodbye! Your to-do list has been closed.")
             spacing()
@@ -171,3 +226,9 @@ def main() -> None:
     
 if __name__ == "__main__":
     main()
+    
+    
+    
+    
+    
+# due date and completed dates is remaining from week 5 and the tasks after it are also remaining

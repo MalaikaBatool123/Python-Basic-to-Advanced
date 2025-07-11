@@ -23,4 +23,5 @@ class RecurringTask(Task):
         """
         return self.date_due + self.interval
     def __str__(self):
-        return f"{self.title} - Recurring (created: {self.date_created}, due: {self.date_due}, completed: {self.completed_dates}, interval: {self.interval})"
+        # this will use the string method of parent class and then concatenate the new attribute
+        return super().__str__() + f" | interval: {self.interval.days} days"
