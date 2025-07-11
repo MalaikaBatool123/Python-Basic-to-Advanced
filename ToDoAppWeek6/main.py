@@ -6,6 +6,7 @@ from task import Task
 import datetime
 from recurring_task import RecurringTask
 from TaskTestDAO import TaskTestDAO
+from TaskCsvDAO import TaskCsvDAO
 
 # function to add spacing
 def spacing():
@@ -222,7 +223,8 @@ def main() -> None:
             
             # get path of file - input fro user
             path = input("Enter file path to load tasks e.g. tasks.txt: ")
-            dao = TaskTestDAO(path)
+            dao = TaskCsvDAO(path)
+            # dao = TaskTestDAO(path)
             
             # Load tasks from DAO and add to task list
             loaded_tasks = dao.get_all_tasks()
@@ -235,7 +237,8 @@ def main() -> None:
     
             # Create DAO and pass current tasks to save (it won’t really save as method is empty)
             
-            dao = TaskTestDAO(path)
+            dao = TaskCsvDAO(path)
+            # dao = TaskTestDAO(path)
             dao.save_all_tasks(task_list.tasks)
             print('saving data to file...')
         elif choice == "11":
