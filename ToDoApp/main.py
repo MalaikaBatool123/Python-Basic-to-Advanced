@@ -1,7 +1,11 @@
-
+""" 
+this is main file for To do List Manager application using OOP concepts
+this file will use codes of task and tasklist classes"""
 from task_list import TaskList
 from task import Task
 import datetime
+
+# function to add spacing
 def spacing():
     print("\n")
     print("-"*40)
@@ -14,9 +18,14 @@ def main() -> None:
     name = input("Enter your name: ")
     
     task_list = TaskList(name)
+    task1 = Task("Buy groceries", "Milk, Eggs, Bread", datetime.date.today())
+    task2 = Task("Submit assignment", "OOP Week 4", datetime.date.today() + datetime.timedelta(days=2))
+    task_list.add_task(task1)
+    task_list.add_task(task2)
     print("\n")
-    # task_list.list_options()
     while True: 
+        
+        # menu
         print("To-Do List Manager") 
         print("1. Add a task") 
         print("2. View tasks") 
@@ -24,7 +33,8 @@ def main() -> None:
         print("4. Mark as completed")
         print("5. Change title of task")
         print("6. Change description of task")
-        print("7. Quit") 
+        print("7. Show over due tasks")
+        print("8. Quit") 
             
         choice = input("Enter your choice: ") 
         print("\n")
@@ -38,26 +48,22 @@ def main() -> None:
                 input_date = input("Enter a due date (YYYY-MM-DD): ")
                 due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d").date()
                 # Check if the date is in the past
-                if due_date < datetime.date.today():
-                    print("This date has already passed. Please enter an upcoming one.\n")
-                else:
-                    task = Task(task_title, task_description, due_date)
-                    task_list.add_task(task)
-                    print(f"'{task_title}' has been added to your to-do list.\n")
-                    break  # Date is valid and in the future, exit the loop
-
-            # input_date = input("Enter a due date (YYYY-MM-DD): ")
-            
-            # due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
-            # task = Task (task_title, task_description, None)
-            
+                # if due_date < datetime.date.today():
+                #     print("This date has already passed. Please enter an upcoming one.\n")
+                # else:
+                task = Task(task_title, task_description, due_date)
+                task_list.add_task(task)
+                print(f"'{task_title}' has been added to your to-do list.\n")
+                break
             print("-"*40)
 
         elif choice == "2":
+            # view all tasks
             task_list.view_tasks()
             spacing()
 
         elif choice == "3":
+            # removing tasks
             task_list.view_tasks()
             if not task_list.tasks:
                 # print("There are no tasks to remove.\n")
@@ -65,13 +71,12 @@ def main() -> None:
                 continue
             index = int(input("Enter the number of the task to remove: "))
             print("\n")
-            
-            
             task_list.remove_task(index)
             print("Your Remaining Tasks:\n")
             task_list.view_tasks()
             spacing()
         elif choice == "4":
+            # mark as completed
             task_list.view_tasks()
             print("\n")
             if not task_list.tasks:
@@ -79,6 +84,7 @@ def main() -> None:
                 print("-"*40)
                 print("\n")
                 continue
+            # check if index is valid
             while True:
                 index = input("Enter the number of the task to mark as completed: ")
 
@@ -95,10 +101,9 @@ def main() -> None:
                 else:
                     print("Invalid input. Please enter a number like 1, 2, 3...")
             
-            # index = int(input("Enter the number of the task to mark as completed: "))
-            # task_list.tasks[index-1].mark_completed()
             spacing()
         elif choice == "5":
+            # change title
             task_list.view_tasks()
             print("\n")
             if not task_list.tasks:
@@ -106,6 +111,7 @@ def main() -> None:
                 spacing()
                 continue
             while True:
+                # user sees 1 based indexing
                 index = input("Enter the number of the task to change title: ")
 
                 if index.isdigit():
@@ -124,6 +130,7 @@ def main() -> None:
             
             spacing()
         elif choice == "6":
+            # change description
             task_list.view_tasks()
             print("\n")
             if not task_list.tasks:
@@ -148,6 +155,10 @@ def main() -> None:
                     print("Invalid input. Please enter a number like 1, 2, 3...")
             spacing()
         elif choice == "7":
+            # show over due tasks
+            task_list.view_over_due_tasks()
+        elif choice == "8":
+            # quit
             print("Goodbye! Your to-do list has been closed.")
             spacing()
             # exit the loop and program

@@ -36,4 +36,26 @@ class TaskList:
                 print(f"{index + 1}. {task}")
                 # print(f"{index + 1}. {task.title} | {task.description}")
     def view_over_due_tasks(self)->None:
-        print("Over Due Tasks:")
+        # if any of tasks are present in list
+        if not self.tasks:
+            print("No tasks in the list.")
+            return
+                    
+        over_due_tasks = []
+        today = datetime.date.today()
+        # if date of any task is passed already
+        for index, task in enumerate(self.tasks, start=1):
+            if task.due_date < today:
+                over_due_tasks.append((index, task))
+        #  Display overdue tasks if found
+        if over_due_tasks:
+            print("Over Due Tasks:")
+            for i, task in over_due_tasks:
+                desc = task.description if task.description else "No description"
+                print(f"{i}. {task.title} | Due Date: {task.due_date} | Description: {desc}")
+        else:
+            print("No over due tasks available")
+        # spacing
+        print("\n")
+        print("-"*40)
+        print("\n")
