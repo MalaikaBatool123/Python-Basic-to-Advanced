@@ -12,18 +12,25 @@ Each task is labeled clearly and separated properly for better understanding.
 # A function is a block of code which only runs when it is called
 
 # creating function
+
+
+
+
 def greet_user():
     print("Hello!")
 # calling function
 greet_user()
 
+print('\n\n')
+
+
 # function with parameters
 def greet_user(name):
     print(f"Hello {name}!")
-
 # calling function
 greet_user("John")
 
+print('\n\n')
 # functions with more than one parameter
 def greet_user(first_name, last_name):
     print(f"Hello {first_name} {last_name}!")
@@ -31,8 +38,12 @@ def greet_user(first_name, last_name):
 # calling function
 greet_user("John", "Doe")
 
+print('\n\n')
+
 # keyword arguments
 greet_user(last_name="Smith", first_name="John")
+
+print('\n\n')
 
 
 # Default values
@@ -41,7 +52,10 @@ def greet_user(first_name, last_name, university="UWS"):
 
 # calling function
 greet_user("John", "Doe")
-# it will also work when we pass the value of variable which have default value
+
+"""it will also work when we pass the value 
+of variable which have default value"""
+
 greet_user("John", "Smith", "UWS London")
 
 print('\n\n')
@@ -111,6 +125,7 @@ print("-" * 40)
 
 # Step 3: Ask the user if they want to calculate more taxes
 while True:
+    # loop is to do the same thing multiple times
     choice = input("Do you want to calculate more tax? (y/n): ").lower()
 
     if choice == "y":
@@ -155,7 +170,8 @@ def compound_interest(principal, duration, interest_rate):
     # Loop through each year and calculate compound interest
     for year in range(1, duration + 1):
         total_for_the_year = principal * (1 + interest_rate) ** year
-        print(f"The total amount of money earned by the investment in year {year} is {total_for_the_year:.2f} £")
+        print(f"The total amount of money earned by the ",
+              "investment in year {year} is {total_for_the_year:.2f} £")
 
     # Return final value as an integer
     final_value = principal * (1 + interest_rate) ** duration
@@ -164,6 +180,8 @@ def compound_interest(principal, duration, interest_rate):
 # Example test
 final_result = compound_interest(1000, 5, 0.03)
 print(f"\nFinal investment value after 5 years: {final_result:.2f} £")
+print("-" * 40)
+print('Using Assertions')
 assert compound_interest(1000, 5, 0.03) == 1159
 
 
@@ -183,14 +201,18 @@ this will cause an error because this variable is
 defined inside the function and can only be 
 accessed and used inside the function
 """
-
 # print(my_new_variable) 
-
-print('\n\n')
 
 """variables defined outside the function 
 can be accessed inside the function too """
 
+def new_function():
+    my_new_variable = 5
+    print(my_new_variable)
+
+new_function()
+
+print('\n\n')
 
 
 """ 
@@ -212,7 +234,7 @@ print("Task 5: Fixing Errors\n")
 
 
 # Syntax Error
-pritn("Hello, World!")  
+# pritn("Hello, World!")  
 
 # Corrected Code
 print("Hello, World!")
@@ -222,7 +244,7 @@ print('\n\n')
 
 # Name Error: 
 my_name = "Alice" 
-print("Hello, " + myname) 
+# print("Hello, " + myname) 
 
 # Corrected Code:
 # define the variable correctly and then using it
@@ -260,8 +282,8 @@ print(fruits[2])
 
 
 # Indentation Error
-if 5 > 2: 
-print("Five is greater than two!") 
+# if 5 > 2: 
+# print("Five is greater than two!") 
 
 # Corrected Code:
 # Indentation is correct
