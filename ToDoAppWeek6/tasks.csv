@@ -1,5 +1,5 @@
 title,type,date_due,completed,interval,completed_dates,date_created
-Buy groceries,Task,03/03/2024,FALSE,,,07/03/2024
+new,Task,2022-02-02,False,,,07/03/2024
 Do laundry,Task,09/03/2024,FALSE,,,07/03/2024
 Clean room,Task,06/03/2024,FALSE,,,07/03/2024
 Do homework,Task,10/03/2024,FALSE,,,07/03/2024
@@ -10,4 +10,5 @@ t1,Task,2022-02-02,False,,,2025-07-12
 fgh,Task,2022-02-02,False,,,2025-07-12
 1asf,Task,2022-02-02,False,,,12/07/2025
 111,Task,2222-02-02,False,,,12/07/2025
-rtyuiop,RecurringTask,2022-01-01,False,8 days,,12/07/2025
+rtyuiop,RecurringTask,2022-01-01,True,8 days,,12/07/2025
+one new,Task,2022-04-04,False,,,12/07/2025

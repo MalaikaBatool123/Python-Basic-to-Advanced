@@ -111,54 +111,56 @@ class TaskCsvDAO:
                     row["completed_dates"] = ""
 
                 writer.writerow(row)
-def update_task(self, updated_task: Task) -> None:
-    """Updates a task in the CSV by replacing the one with the same title."""
+    def update_task(self, updated_task: Task, old_title) -> None:
+        print("update task", updated_task)
+        """Updates a task in the CSV by replacing the one with the same title."""
 
-    updated_rows = []
-    found = False
+        updated_rows = []
+        found = False
 
-    # Load all existing tasks
-    if os.path.exists(self.storage_path):
-        with open(self.storage_path, "r", encoding="utf-8") as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                if row["title"] == updated_task.title:
-                    # Replace with updated task
-                    new_row = {}
+        # Load all existing tasks
+        if os.path.exists(self.storage_path):
+            with open(self.storage_path, "r", encoding="utf-8") as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    
+                    if row["title"] == old_title:
+                        # Replace with updated task
+                        new_row = {}
 
-                    new_row["title"] = updated_task.title
-                    new_row["completed"] = str(updated_task.completed)
-                    new_row["date_due"] = updated_task.due_date.strftime("%Y-%m-%d")
-                    new_row["date_created"] = updated_task.date_created.strftime("%d/%m/%Y")
+                        new_row["title"] = updated_task.title
+                        new_row["completed"] = str(updated_task.completed)
+                        new_row["date_due"] = updated_task.due_date.strftime("%Y-%m-%d")
+                        new_row["date_created"] = updated_task.date_created.strftime("%d/%m/%Y")
 
-                    if isinstance(updated_task, RecurringTask):
-                        new_row["type"] = "RecurringTask"
-                        interval = updated_task.interval.days if hasattr(updated_task.interval, "days") else updated_task.interval
-                        new_row["interval"] = f"{interval} days"
-                        # new_row["interval"] = f"{updated_task.interval.days} days"
-                        new_row["completed_dates"] = ",".join(
-                            [d.strftime("%Y-%m-%d") for d in updated_task.completed_dates]
-                        )
+                        if isinstance(updated_task, RecurringTask):
+                            new_row["type"] = "RecurringTask"
+                            interval = updated_task.interval.days if hasattr(updated_task.interval, "days") else updated_task.interval
+                            new_row["interval"] = f"{interval} days"
+                            # new_row["interval"] = f"{updated_task.interval.days} days"
+                            new_row["completed_dates"] = ",".join(
+                                [d.strftime("%Y-%m-%d") for d in updated_task.completed_dates]
+                            )
+                        else:
+                            new_row["type"] = "Task"
+                            new_row["interval"] = ""
+                            new_row["completed_dates"] = ""
+
+                        updated_rows.append(new_row)
+                        found = True
                     else:
-                        new_row["type"] = "Task"
-                        new_row["interval"] = ""
-                        new_row["completed_dates"] = ""
+                        # Keep other tasks as is
+                        updated_rows.append(row)
 
-                    updated_rows.append(new_row)
-                    found = True
-                else:
-                    # Keep other tasks as is
-                    updated_rows.append(row)
+        # If task wasn't found, don't update anything
+        if not found:
+            print(f"[!] Task with title '{updated_task.title}' not found.")
+            return
 
-    # If task wasn't found, don't update anything
-    if not found:
-        print(f"[!] Task with title '{updated_task.title}' not found.")
-        return
+        # Overwrite the CSV file with updated rows
+        with open(self.storage_path, "w", newline='', encoding="utf-8") as file:
+            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+            writer.writeheader()
+            writer.writerows(updated_rows)
 
-    # Overwrite the CSV file with updated rows
-    with open(self.storage_path, "w", newline='', encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=self.fieldnames)
-        writer.writeheader()
-        writer.writerows(updated_rows)
-
-    print(f"[✓] Task '{updated_task.title}' updated successfully.")
+        print(f"[✓] Task '{updated_task.title}' updated successfully.")

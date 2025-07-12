@@ -7,6 +7,7 @@ import datetime
 from recurring_task import RecurringTask
 from TaskTestDAO import TaskTestDAO
 from TaskCsvDAO import TaskCsvDAO
+from TaskPickleDAO import TaskPickleDAO
 
 # function to add spacing
 def spacing():
@@ -53,7 +54,9 @@ def main() -> None:
         print("8. Change Due date of task")
         print("9. Load Tasks from CSV")
         print("10. Save Tasks to CSV")
-        print("11. Quit") 
+        print("11. Load Data from Pickle File")
+        print("12. Save Data to Pickle File")
+        print("13. Quit") 
             
         choice = input("Enter your choice: ") 
         print("\n")
@@ -131,7 +134,10 @@ def main() -> None:
                     # Convert to actual integer
                     index = int(index)  
                     if index > 0 and index <= len(task_list.tasks) :
+                        old_title = task_list.tasks[index-1].title
                         task_list.tasks[index-1].mark_completed()
+                        dao = TaskCsvDAO("tasks.csv")
+                        dao.update_task(task_list.tasks[index-1], old_title)
                         break  # Exit the loop since input is valid
                     else:
                         print("Invalid task number. Please try again.\n")
@@ -158,7 +164,12 @@ def main() -> None:
                     index = int(index)  
                     if index > 0 and index <= len(task_list.tasks) :
                         new_title = input("Enter the new title: ")
+                        old_title = task_list.tasks[index-1].title
                         task_list.tasks[index-1].change_title(new_title)
+                        print('tasking: ', task_list.tasks[index-1])
+                        print('old task: ', old_title)
+                        dao = TaskCsvDAO("tasks.csv")
+                        dao.update_task(task_list.tasks[index-1], old_title)
                         break  # Exit the loop since input is valid
                     else:
                         print("Invalid task number. Please try again.\n")
@@ -184,7 +195,10 @@ def main() -> None:
                     index = int(index)  
                     if index > 0 and index <= len(task_list.tasks) :
                         new_desc = input("Enter the new description: ")
+                        old_title = task_list.tasks[index-1].title
                         task_list.tasks[index-1].change_description(new_desc)
+                        dao = TaskCsvDAO("tasks.csv")
+                        dao.update_task(task_list.tasks[index-1], old_title)
                         break  # Exit the loop since input is valid
                     else:
                         print("Invalid task number. Please try again.\n")
@@ -208,9 +222,12 @@ def main() -> None:
                     index = int(index)  
                     if index > 0 and index <= len(task_list.tasks) :
                         # get new due date
+                        old_title = task_list.tasks[index-1].title
                         new_date = input("Enter the new due date (YYYY-MM-DD): ")
                         due_date = datetime.datetime.strptime(new_date, "%Y-%m-%d").date()
                         task_list.tasks[index-1].change_due_date(due_date)
+                        dao = TaskCsvDAO("tasks.csv")
+                        dao.update_task(task_list.tasks[index-1], old_title)
                         break  # Exit the loop since input is valid
                     else:
                         print("Invalid task number. Please try again.\n")
@@ -241,7 +258,21 @@ def main() -> None:
             # dao = TaskTestDAO(path)
             dao.save_all_tasks(task_list.tasks)
             print('saving data to file...')
+        
         elif choice == "11":
+            path = input("Enter pickle file path to load from (e.g. tasks.pkl): ")
+           
+            dao = TaskPickleDAO(path)
+            tasks = dao.get_all_tasks()
+            for task in tasks:
+                task_list.add_task(task)
+            print("[✓] Tasks loaded from pickle.")
+
+        elif choice == "12":
+            path = input("Enter pickle file path to save to (e.g. tasks.pkl): ")
+            dao = TaskPickleDAO(path)
+            dao.save_all_tasks(task_list.tasks)
+        elif choice == "13":
             # quit
             print("Goodbye! Your to-do list has been closed.")
             spacing()

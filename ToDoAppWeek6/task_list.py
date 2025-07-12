@@ -66,3 +66,9 @@ class TaskList:
         print("\n")
         print("-"*40)
         print("\n")
+    
+    
+    def get_task_by_titile(self, title: str) -> Task:
+        for task in self.tasks:
+            if task.title == title:
+                return task
