@@ -8,12 +8,32 @@ from recurring_task import RecurringTask
 from TaskTestDAO import TaskTestDAO
 from TaskCsvDAO import TaskCsvDAO
 from TaskPickleDAO import TaskPickleDAO
+from owner import Owner
 
 # function to add spacing
 def spacing():
     print("\n")
     print("-"*40)
     print("\n")
+
+def propagate_task_list(task_list: TaskList) -> TaskList:
+    """Adds some sample tasks to the task list for testing."""
+    task_list.add_task(Task("Buy groceries", "Milk, eggs, and bread", datetime.datetime.now().date() - datetime.timedelta(days=4)))
+    task_list.add_task(Task("Do laundry", "Wash and fold clothes", datetime.datetime.now().date() + datetime.timedelta(days=2)))
+    task_list.add_task(Task("Clean room", "Organize desk and vacuum floor", datetime.datetime.now().date() - datetime.timedelta(days=1)))
+    task_list.add_task(Task("Do homework", "Finish math and science assignments", datetime.datetime.now().date() + datetime.timedelta(days=3)))
+    task_list.add_task(Task("Walk dog", "Evening walk around the park", datetime.datetime.now().date() + datetime.timedelta(days=5)))
+    task_list.add_task(Task("Do dishes", "Clean all utensils after dinner", datetime.datetime.now().date() + datetime.timedelta(days=6)))
+    
+    r_task = RecurringTask("Go to the gym",'description', datetime.datetime.now(),datetime.timedelta(days=7))
+    # propagate the recurring task with some completed dates
+    r_task.completed_dates.append(datetime.datetime.now() - datetime.timedelta(days=7))
+    r_task.completed_dates.append(datetime.datetime.now() - datetime.timedelta(days=14))
+    r_task.completed_dates.append(datetime.datetime.now() - datetime.timedelta(days=22))
+    r_task.date_created = datetime.datetime.now() - datetime.timedelta(days=28)
+    task_list.add_task(r_task)
+
+    return task_list
 
 def get_task_details(task_list):
     task_title = input("Enter title of task: ")
@@ -34,29 +54,35 @@ def main() -> None:
     
     name = input("Enter your name: ")
     
-    task_list = TaskList(name)
-    # task1 = Task("Buy groceries", "Milk, Eggs, Bread", datetime.date.today())
-    # task2 = Task("Submit assignment", "OOP Week 4", datetime.date.today() + datetime.timedelta(days=2))
-    # task_list.add_task(task1)
-    # task_list.add_task(task2)
+    email = input("Enter your email: ")
+    
+    owner = Owner(name, email)
+    print("\n" + str(owner))
+    task_list = TaskList(owner)
+    print("Your task list has been created successfully.\n")
+    
+    # for test tasks
+    task_list = propagate_task_list(task_list)
+    
     print("\n")
     while True: 
         
         # menu
         print("To-Do List Manager") 
-        print("1. Add a task") 
-        print("2. View tasks") 
-        print("3. Remove a task") 
-        print("4. Mark as completed")
-        print("5. Change title of task")
-        print("6. Change description of task")
-        print("7. Show over due tasks")
-        print("8. Change Due date of task")
-        print("9. Load Tasks from CSV")
+        print(" 1.  Add a task") 
+        print(" 2.  View tasks") 
+        print(" 3.  Remove a task") 
+        print(" 4.  Mark as completed")
+        print(" 5.  Change title of task")
+        print(" 6.  Change description of task")
+        print(" 7.  Show over due tasks")
+        print(" 8.  Change Due date of task")
+        print(" 9.  Load Tasks from CSV")
         print("10. Save Tasks to CSV")
         print("11. Load Data from Pickle File")
         print("12. Save Data to Pickle File")
-        print("13. Quit") 
+        print("13. Get Owner Details")
+        print("14. Quit") 
             
         choice = input("Enter your choice: ") 
         print("\n")
@@ -134,10 +160,13 @@ def main() -> None:
                     # Convert to actual integer
                     index = int(index)  
                     if index > 0 and index <= len(task_list.tasks) :
-                        old_title = task_list.tasks[index-1].title
-                        task_list.tasks[index-1].mark_completed()
+                        task = task_list.get_task(index)
+                        old_title = task.title
+                        task = task_list.get_task(index)
+                        task.mark_completed()       
+                        # task_list.tasks[index-1].mark_completed()
                         dao = TaskCsvDAO("tasks.csv")
-                        dao.update_task(task_list.tasks[index-1], old_title)
+                        dao.update_task(task, old_title)
                         break  # Exit the loop since input is valid
                     else:
                         print("Invalid task number. Please try again.\n")
@@ -164,12 +193,13 @@ def main() -> None:
                     index = int(index)  
                     if index > 0 and index <= len(task_list.tasks) :
                         new_title = input("Enter the new title: ")
-                        old_title = task_list.tasks[index-1].title
-                        task_list.tasks[index-1].change_title(new_title)
-                        print('tasking: ', task_list.tasks[index-1])
-                        print('old task: ', old_title)
+                        
+                        task = task_list.get_task(index)
+                        old_title = task.title
+                        task.change_title(new_title)
+                        # task_list.tasks[index-1].change_title(new_title)
                         dao = TaskCsvDAO("tasks.csv")
-                        dao.update_task(task_list.tasks[index-1], old_title)
+                        dao.update_task(task, old_title)
                         break  # Exit the loop since input is valid
                     else:
                         print("Invalid task number. Please try again.\n")
@@ -195,10 +225,12 @@ def main() -> None:
                     index = int(index)  
                     if index > 0 and index <= len(task_list.tasks) :
                         new_desc = input("Enter the new description: ")
-                        old_title = task_list.tasks[index-1].title
-                        task_list.tasks[index-1].change_description(new_desc)
+                        task = task_list.get_task(index)
+                        old_title = task.title
+                        task.change_description(new_desc)
+                        # task_list.tasks[index-1].change_description(new_desc)
                         dao = TaskCsvDAO("tasks.csv")
-                        dao.update_task(task_list.tasks[index-1], old_title)
+                        dao.update_task(task, old_title)
                         break  # Exit the loop since input is valid
                     else:
                         print("Invalid task number. Please try again.\n")
@@ -222,12 +254,14 @@ def main() -> None:
                     index = int(index)  
                     if index > 0 and index <= len(task_list.tasks) :
                         # get new due date
-                        old_title = task_list.tasks[index-1].title
+                        task = task_list.get_task(index)
+                        old_title = task.title
                         new_date = input("Enter the new due date (YYYY-MM-DD): ")
                         due_date = datetime.datetime.strptime(new_date, "%Y-%m-%d").date()
-                        task_list.tasks[index-1].change_due_date(due_date)
+                        # task_list.tasks[index-1].change_due_date(due_date)
+                        task.change_due_date(due_date)
                         dao = TaskCsvDAO("tasks.csv")
-                        dao.update_task(task_list.tasks[index-1], old_title)
+                        dao.update_task(task, old_title)
                         break  # Exit the loop since input is valid
                     else:
                         print("Invalid task number. Please try again.\n")
@@ -273,6 +307,11 @@ def main() -> None:
             dao = TaskPickleDAO(path)
             dao.save_all_tasks(task_list.tasks)
         elif choice == "13":
+            print("Owner details:\n")
+            print('Name: ',task_list.owner.name)
+            print('Email: ',task_list.owner.email)
+            spacing()
+        elif choice == "14":
             # quit
             print("Goodbye! Your to-do list has been closed.")
             spacing()

@@ -1,10 +1,10 @@
 import datetime
 from task import Task
-
+from owner import Owner
 
 class TaskList:
     # tasks = list[Task]
-    def __init__(self, owner) -> None:
+    def __init__(self, owner:Owner) -> None:
         self.owner = owner
         # self.owner = ""
         self.tasks = []
@@ -72,3 +72,11 @@ class TaskList:
         for task in self.tasks:
             if task.title == title:
                 return task
+    
+    def get_task(self, index):
+        """Returns the task at the given index (1-based index for user-friendliness)."""
+        if 1 <= index <= len(self.tasks):
+            return self.tasks[index - 1]
+        else:
+            return None
+        
