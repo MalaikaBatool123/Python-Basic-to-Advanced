@@ -19,14 +19,13 @@ class Task:
         
     def __str__(self):
         status = "Completed" if self.completed else "Pending"
-        return f"Task: {self.title} | Status: {status} | Due Date: {self.due_date} | Description: {self.description}"
+        return f"Task: {self.title} | Status: {status} | Due Date: {self.due_date.date()} | Description: {self.description}"
     
     def mark_completed(self):
         self.completed = True
     def change_title(self, new_title):
         self.title = new_title
     def change_due_date(self, new_date):
-        
         self.due_date = new_date
 
 class TaskList:
@@ -72,7 +71,8 @@ class TaskList:
             print("3. Remove a task") 
             print("4. Mark as completed")
             print("5. Change title of task")
-            print("6. Quit") 
+            print("6. Change due date of task")
+            print("7. Quit") 
              
             choice = input("Enter your choice: ") 
             print("\n")
@@ -155,6 +155,27 @@ class TaskList:
                 
                 spacing()
             elif choice == "6":
+                self.view_tasks()
+                print("\n")
+                if not self.tasks:
+                    # print("There are no tasks available\n")
+                    spacing()
+                    continue
+                while True:
+                    index = input("Enter the number of the task to change due date: ")
+
+                    if index.isdigit():
+                        # Convert to actual integer
+                        index = int(index)  
+                        if index > 0 and index <= len(self.tasks) :
+                            new_date = input("Enter the new due date (YYYY-MM-DD): ")
+                            new_due_date = datetime.datetime.strptime(new_date, "%Y-%m-%d")
+                            self.tasks[index-1].change_due_date(new_due_date)
+                            break  # Exit the loop since input is valid
+                        else:
+                            print("Invalid task number. Please try again.\n")
+                            continue
+            elif choice == "7":
                 print("Goodbye! Your to-do list has been closed.")
                 spacing()
                 # exit the loop and program

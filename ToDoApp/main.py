@@ -12,17 +12,34 @@ def spacing():
     print("-"*40)
     print("\n")
 
+def propagate_task_list(task_list: TaskList) -> TaskList:
+    """Adds some sample tasks to the task list for testing."""
+    task_list.add_task(Task("Buy groceries", "Milk, eggs, and bread", datetime.datetime.now() - datetime.timedelta(days=4)))
+    task_list.add_task(Task("Do laundry", "Wash and fold clothes", datetime.datetime.now() + datetime.timedelta(days=2)))
+    task_list.add_task(Task("Clean room", "Organize desk and vacuum floor", datetime.datetime.now() - datetime.timedelta(days=1)))
+    task_list.add_task(Task("Do homework", "Finish math and science assignments", datetime.datetime.now() + datetime.timedelta(days=3)))
+    task_list.add_task(Task("Walk dog", "Evening walk around the park", datetime.datetime.now() + datetime.timedelta(days=5)))
+    task_list.add_task(Task("Do dishes", "Clean all utensils after dinner", datetime.datetime.now() + datetime.timedelta(days=6)))
+    return task_list
+
 def main() -> None:
     print("="*40)   
     print("----Welcome to the To-Do List Manager----\n")
     
     name = input("Enter your name: ")
-    
     task_list = TaskList(name)
+    
+    # test tasks
     task1 = Task("Buy groceries", "Milk, Eggs, Bread", datetime.date.today())
     task2 = Task("Submit assignment", "OOP Week 4", datetime.date.today() + datetime.timedelta(days=2))
+    # adding test Task Objects to list
     task_list.add_task(task1)
     task_list.add_task(task2)
+    
+    # for more test tasks
+    task_list = propagate_task_list(task_list)
+
+    
     print("\n")
     while True: 
         
@@ -42,7 +59,6 @@ def main() -> None:
             
         if choice == "1":
             task_title = input("Enter title of task: ")
-            # task_list.add_task(task)
             task_description = input("Enter the description: ")
             
             # this loop is to ask the user to enter date until it is valid
