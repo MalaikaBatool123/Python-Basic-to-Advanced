@@ -1,6 +1,7 @@
 """ 
 this is main file for To do List Manager application using OOP concepts
 this file will use codes of task and tasklist classes"""
+
 from task_list import TaskList
 from task import Task
 import datetime
@@ -44,13 +45,10 @@ def main() -> None:
             # task_list.add_task(task)
             task_description = input("Enter the description: ")
             
+            # this loop is to ask the user to enter date until it is valid
             while True :
                 input_date = input("Enter a due date (YYYY-MM-DD): ")
                 due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d").date()
-                # Check if the date is in the past
-                # if due_date < datetime.date.today():
-                #     print("This date has already passed. Please enter an upcoming one.\n")
-                # else:
                 task = Task(task_title, task_description, due_date)
                 task_list.add_task(task)
                 print(f"'{task_title}' has been added to your to-do list.\n")

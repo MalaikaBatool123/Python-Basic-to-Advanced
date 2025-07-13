@@ -1,6 +1,7 @@
 """
 Python File that contains all the Tasks from Week 3 lab.
 Each task is labeled clearly and separated properly for better understanding.
+Topics are mentioned in Week 3 Lab
 """
 
 """
@@ -255,15 +256,16 @@ print('\n\n')
 
 
 # Value Error: 
-number1 = "5" 
-number2 = 3 
-result = number1 + number2 
+# number1 = "5" 
+# number2 = 3 
+# result = number1 + number2 
 
 # Corrected Code:
 # Convert the string to an integer then perform the operation
 number1 = int("5")  
 number2 = 3  
 result = number1 + number2
+print("The sum of", number1, "and", number2, "is", result)
 
 
 
@@ -271,15 +273,17 @@ print('\n\n')
 
 # Index Error
 fruits = ["apple", "banana", "orange"] 
-print(fruits[3])
+# print(fruits[3])
+
 
 # Corrected Code:
 # Use a valid index for the list
 # Index starts from 0, thats why end at 1 less then the length of the list
 fruits = ["apple", "banana", "orange"] 
-print(fruits[2])
+print('Fruit at the index 2 is', fruits[2])
 
 
+print('\n\n')
 
 # Indentation Error
 # if 5 > 2: 
@@ -290,3 +294,5 @@ print(fruits[2])
 if 5 > 2:
     print("Five is greater than two!")
 
+
+print('\n\n')

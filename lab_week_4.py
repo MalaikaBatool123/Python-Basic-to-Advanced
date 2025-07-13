@@ -1,5 +1,6 @@
 """ 
-This file container code for To do List Manager application using OOP concepts
+This file contains the code for To do List Manager application
+using OOP concepts mentioned in Week 4 Lab
 """
 
 import datetime
@@ -15,10 +16,11 @@ class Task:
         self.completed = False
         self.date_created = datetime.datetime.now()
         self.due_date = due_date
+        
     def __str__(self):
         status = "Completed" if self.completed else "Pending"
-        
         return f"Task: {self.title} | Status: {status} | Due Date: {self.due_date} | Description: {self.description}"
+    
     def mark_completed(self):
         self.completed = True
     def change_title(self, new_title):
@@ -39,7 +41,6 @@ class TaskList:
     def remove_task(self,index):
         # not done yet
         # Remove a task by its index (user sees 1-based index)
-        # 
         if index >= 1 and index <= len(self.tasks):
             print("index: ", index)
             print("len: ", len(self.tasks))
@@ -48,7 +49,7 @@ class TaskList:
             print(f"Removed: {self.tasks[index-1].title}")
             
             # delete the task
-            # del self.tasks[index]
+            del self.tasks[index-1]
         else:
             print("Invalid index. Please try again.")
         
@@ -83,7 +84,6 @@ class TaskList:
                 input_date = input("Enter a due date (YYYY-MM-DD): ")
                 due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d")
                 task = Task(task_title, task_description, due_date)
-                # task = Task (task_title, task_description, None)
                 self.add_task(task)
                 print(f"'{task_title}' has been added to your to-do list.\n")
                 print("-"*40)
@@ -100,8 +100,10 @@ class TaskList:
                     continue
                 index = int(input("Enter the number of the task to remove: "))
                 print("\n")
-                
-                print(f"'{task_title}' has been added to your to-do list.\n")
+                if index < 1 or index > len(self.tasks):
+                    print("Invalid task number. Please try again.\n")
+                    spacing()
+                    continue
                 
                 self.remove_task(index)
                 spacing()
@@ -109,13 +111,11 @@ class TaskList:
                 self.view_tasks()
                 print("\n")
                 if not self.tasks:
-                    # print("There are no tasks available\n")
                     print("-"*40)
                     print("\n")
                     continue
                 while True:
                     index = input("Enter the number of the task to mark as completed: ")
-
                     if index.isdigit():
                         # Convert to actual integer
                         index = int(index)  
@@ -124,13 +124,10 @@ class TaskList:
                             break  # Exit the loop since input is valid
                         else:
                             print("Invalid task number. Please try again.\n")
-                            continue
-                            
+                            continue            
                     else:
                         print("Invalid input. Please enter a number like 1, 2, 3...")
                 
-                # index = int(input("Enter the number of the task to mark as completed: "))
-                # self.tasks[index-1].mark_completed()
                 spacing()
             elif choice == "5":
                 self.view_tasks()
@@ -173,6 +170,8 @@ def main():
     
     task_list = TaskList(name)
     print("\n")
+    
+    
     task_list.list_options()
     
     

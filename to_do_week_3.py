@@ -1,21 +1,22 @@
 
 """ 
-This file container code for To do List Manager application
+This file container code for 
+To do List Manager application from the Week 3 Lab
 """
 
 print("="*40)
 
-# ✅ Step 1: Initialize an empty list to store tasks
+# Step 1: Initialize an empty list to store tasks
 tasks = []
 
-# ✅ Step 2: Function to add a task
+# Step 2: Function to add a task
 def add_task():
     task = input("Enter the task you want to add: ")
     # add the task to the list
     tasks.append(task)  
     print(f"'{task}' has been added to your to-do list.\n")
 
-# ✅ Step 3: Function to view current tasks
+# Step 3: Function to view current tasks
 def view_tasks():
     if not tasks:
         print("Your to-do list is empty.\n")
@@ -25,7 +26,7 @@ def view_tasks():
             print(f"{index}. {task}")
         print()  # just a blank line for spacing
 
-# ✅ Step 4: Function to remove a task
+# Step 4: Function to remove a task
 def remove_task():
     if not tasks:
         print("There are no tasks to remove.\n")
@@ -45,7 +46,7 @@ def remove_task():
     except ValueError:
         print("Please enter a valid number.\n")
 
-# ✅ Step 5: Main program loop
+# Step 5: Main program loop
 while True:
     print("📋 To-Do List Manager")
     print("1. Add a task")

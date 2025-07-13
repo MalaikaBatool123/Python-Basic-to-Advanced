@@ -1,7 +1,5 @@
 import datetime
 from task import Task
-
-
 class TaskList:
     # tasks = list[Task]
     def __init__(self, owner) -> None:
