@@ -10,8 +10,7 @@ class TaskCsvDAO:
 
         # initialize fieldnames
         self.fieldnames = ["title", "type", "date_due", "completed", "interval", "completed_dates", "date_created"]
-    
-    
+      
     def get_all_tasks(self) -> list[Task]:
         task_list = []
         with open(self.storage_path, "r") as file:
@@ -82,8 +81,6 @@ class TaskCsvDAO:
 
         return task_list
     
-    
-    
     def save_all_tasks(self, tasks: list[Task]) -> None:
         # create a set of existing task titles to check for duplicates
         existing_titles = set()
@@ -141,7 +138,6 @@ class TaskCsvDAO:
 
                 # Finally, write the task details to the CSV file
                 writer.writerow(row)
-    
     
     def update_task(self, updated_task: Task, old_title) -> None:
         

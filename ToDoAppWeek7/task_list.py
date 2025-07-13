@@ -3,7 +3,6 @@ from task import Task
 from owner import Owner
 
 class TaskList:
-    # tasks = list[Task]
     def __init__(self, owner:Owner) -> None:
         self.owner = owner
         self.tasks = []
@@ -66,8 +65,7 @@ class TaskList:
         print("\n")
         print("-"*40)
         print("\n")
-    
-    
+        
     def get_task_by_title(self, title: str) -> Task:
         for task in self.tasks:
             if task.title == title:
