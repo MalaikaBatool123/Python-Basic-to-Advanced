@@ -37,8 +37,10 @@ class RecurringTask(Task):
         # Mark as completed (from parent)
         self.completed = True
     def __str__(self):
+        if 'days' in str(self.interval):
+            self.interval = self.interval.days
         # this will use the string method of parent class and then concatenate the new attribute
-        return super().__str__() + f" | interval: {self.interval.days} days" 
+        return super().__str__() + f" | interval: {self.interval} days" 
 
     def __eq__(self, other):
         return (
