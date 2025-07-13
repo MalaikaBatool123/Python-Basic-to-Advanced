@@ -26,6 +26,9 @@ class TaskList:
             print("Invalid index. Please try again.")
         
         # print("remove task")
+        
+        
+        
     """Property attribute is used to use the method as attribute
     In this case this method of getting in completed tasks will be used as attribute and not method"""
     @property
@@ -42,6 +45,10 @@ class TaskList:
                 # Get the correct index from the original task list
                 ix = self.tasks.index(task)
                 print(f"{ix+1}: {task}")  # Print index and task details
+                
+                
+                
+                
     def view_over_due_tasks(self)->None:
         # if any of tasks are present in list
         if not self.tasks:

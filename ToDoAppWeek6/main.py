@@ -10,6 +10,13 @@ from TaskCsvDAO import TaskCsvDAO
 from TaskPickleDAO import TaskPickleDAO
 from owner import Owner
 
+
+# global variable because i want it to be accessed in every function
+file_path=""
+# file_path = "tasks.csv"
+file_path_pkl=""
+# file_path_pkl = "tasks.pkl"
+
 # function to add spacing
 def spacing():
     print("\n")
@@ -62,10 +69,11 @@ def main() -> None:
     print("Your task list has been created successfully.\n")
     
     # for test tasks
-    task_list = propagate_task_list(task_list)
+    # task_list = propagate_task_list(task_list)
     
     print("\n")
-    while True: 
+    while True:
+        global file_path, file_path_pkl 
         
         # menu
         print("To-Do List Manager") 
@@ -101,6 +109,7 @@ def main() -> None:
                     print(f"'{task_title}' has been added to your to-do list.\n")
                     break
                 elif sub_choice == "2":
+                    """ then its converted to timedelta and then passed into Recurring Task object to create Recurring Task and then adding it to task list"""
                     task_title, task_description, due_date = get_task_details(task_list)
                     interval = input("Enter the interval in days: ")
                     interval = datetime.timedelta(days=int(interval))
@@ -110,19 +119,7 @@ def main() -> None:
                     break
                 elif sub_choice == "3":
                     break
-            # get_task_details(task_list)
-            # adding tasks
-            # task_title = input("Enter title of task: ")
-            # # task_list.add_task(task)
-            # task_description = input("Enter the description: ")
-            
-            # while True :
-            #     input_date = input("Enter a due date (YYYY-MM-DD): ")
-            #     due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d").date()
-            #     task = Task(task_title, task_description, due_date)
-            #     task_list.add_task(task)
-            #     print(f"'{task_title}' has been added to your to-do list.\n")
-            #     break
+           
             print("-"*40)
 
         elif choice == "2":
@@ -165,7 +162,8 @@ def main() -> None:
                         task = task_list.get_task(index)
                         task.mark_completed()       
                         # task_list.tasks[index-1].mark_completed()
-                        dao = TaskCsvDAO("tasks.csv")
+                        dao = TaskCsvDAO(file_path)
+                        # dao = TaskCsvDAO("tasks.csv")
                         dao.update_task(task, old_title)
                         break  # Exit the loop since input is valid
                     else:
@@ -198,7 +196,8 @@ def main() -> None:
                         old_title = task.title
                         task.change_title(new_title)
                         # task_list.tasks[index-1].change_title(new_title)
-                        dao = TaskCsvDAO("tasks.csv")
+                        dao = TaskCsvDAO(file_path)
+                        # dao = TaskCsvDAO("tasks.csv")
                         dao.update_task(task, old_title)
                         break  # Exit the loop since input is valid
                     else:
@@ -229,7 +228,8 @@ def main() -> None:
                         old_title = task.title
                         task.change_description(new_desc)
                         # task_list.tasks[index-1].change_description(new_desc)
-                        dao = TaskCsvDAO("tasks.csv")
+                        dao = TaskCsvDAO(file_path)
+                        # dao = TaskCsvDAO("tasks.csv")
                         dao.update_task(task, old_title)
                         break  # Exit the loop since input is valid
                     else:
@@ -260,7 +260,8 @@ def main() -> None:
                         due_date = datetime.datetime.strptime(new_date, "%Y-%m-%d").date()
                         # task_list.tasks[index-1].change_due_date(due_date)
                         task.change_due_date(due_date)
-                        dao = TaskCsvDAO("tasks.csv")
+                        # dao = TaskCsvDAO("tasks.csv")
+                        dao = TaskCsvDAO(file_path)
                         dao.update_task(task, old_title)
                         break  # Exit the loop since input is valid
                     else:
@@ -273,38 +274,47 @@ def main() -> None:
             # load data from file
             
             # get path of file - input fro user
-            path = input("Enter file path to load tasks e.g. tasks.txt: ")
-            dao = TaskCsvDAO(path)
+            if(not file_path):
+                file_path = input("Enter file path to load tasks (e.g. tasks.csv): ")
+            # path = input("Enter file path to load tasks e.g. tasks.txt: ")
+            dao = TaskCsvDAO(file_path)
             # dao = TaskTestDAO(path)
             
             # Load tasks from DAO and add to task list
             loaded_tasks = dao.get_all_tasks()
             for task in loaded_tasks:
-                task_list.add_task(task)
+                if task not in task_list.tasks:
+                    task_list.add_task(task)
             print('loading data from file...')
             
         elif choice == "10":
-            path = input("Enter file path to save tasks (e.g. tasks.txt): ")
+            if(not file_path):
+                file_path = input("Enter file path to load tasks (e.g. tasks.csv): ")
+            # path = input("Enter file path to save tasks (e.g. tasks.txt): ")
     
             # Create DAO and pass current tasks to save (it won’t really save as method is empty)
             
-            dao = TaskCsvDAO(path)
+            dao = TaskCsvDAO(file_path)
             # dao = TaskTestDAO(path)
             dao.save_all_tasks(task_list.tasks)
             print('saving data to file...')
         
         elif choice == "11":
-            path = input("Enter pickle file path to load from (e.g. tasks.pkl): ")
+            if(not file_path_pkl):
+                file_path_pkl = input("Enter file path to load tasks (e.g. tasks.pkl): ")
+            # path = input("Enter pickle file path to load from (e.g. tasks.pkl): ")
            
-            dao = TaskPickleDAO(path)
+            dao = TaskPickleDAO(file_path_pkl)
             tasks = dao.get_all_tasks()
             for task in tasks:
                 task_list.add_task(task)
             print("[✓] Tasks loaded from pickle.")
 
         elif choice == "12":
-            path = input("Enter pickle file path to save to (e.g. tasks.pkl): ")
-            dao = TaskPickleDAO(path)
+            # path = input("Enter pickle file path to save to (e.g. tasks.pkl): ")
+            if (not file_path_pkl):
+                file_path_pkl = input("Enter file path to save tasks (e.g. tasks.pkl): ")
+            dao = TaskPickleDAO(file_path_pkl)
             dao.save_all_tasks(task_list.tasks)
         elif choice == "13":
             print("Owner details:\n")

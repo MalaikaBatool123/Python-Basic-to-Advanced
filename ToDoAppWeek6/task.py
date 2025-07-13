@@ -20,4 +20,11 @@ class Task:
         self.description = new_description
     def change_due_date(self, new_date)-> None:
         self.due_date = new_date
+    def __eq__(self, other):
+        return (
+            isinstance(other, Task)
+            and self.title == other.title
+            and self.due_date == other.due_date
+            and self.description == other.description
+        )
 

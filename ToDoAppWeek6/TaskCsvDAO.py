@@ -5,11 +5,13 @@ from task import Task
 from recurring_task import RecurringTask
 class TaskCsvDAO:
     def __init__(self, storage_path: str) -> None:
-        # self.storage_path = storage_path
-        
+        # gets the file path and joins it
         self.storage_path = os.path.join(os.path.dirname(__file__), storage_path)
 
+        # initialize fieldnames
         self.fieldnames = ["title", "type", "date_due", "completed", "interval", "completed_dates", "date_created"]
+    
+    
     def get_all_tasks(self) -> list[Task]:
         task_list = []
         with open(self.storage_path, "r") as file:
@@ -30,7 +32,6 @@ class TaskCsvDAO:
                         print(f"Unknown date format: {date_due_str}")
                         date_due = None  # or set a default/fallback
                 completed = row["completed"] == "True"  # convert string to boolean
-                # date_created = datetime.datetime.strptime(row["date_created"], "%Y-%m-%d")
                 date_created = None
                 date_created_str = row["date_created"]
                 if date_created_str != "":
@@ -67,6 +68,9 @@ class TaskCsvDAO:
                 task_list.append(task)
 
         return task_list
+    
+    
+    
     def save_all_tasks(self, tasks: list[Task]) -> None:
         existing_titles = set()
 
@@ -112,7 +116,7 @@ class TaskCsvDAO:
 
                 writer.writerow(row)
     def update_task(self, updated_task: Task, old_title) -> None:
-        print("update task", updated_task)
+        
         """Updates a task in the CSV by replacing the one with the same title."""
 
         updated_rows = []

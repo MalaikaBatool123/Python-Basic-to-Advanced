@@ -40,3 +40,11 @@ class RecurringTask(Task):
         # this will use the string method of parent class and then concatenate the new attribute
         return super().__str__() + f" | interval: {self.interval.days} days" 
 
+    def __eq__(self, other):
+        return (
+            isinstance(other, Task)
+            and self.title == other.title
+            and self.due_date == other.due_date
+            and self.description == other.description
+            and self.interval == other.interval
+        )
