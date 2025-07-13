@@ -50,9 +50,6 @@ def get_task_details(task_list):
     while True :
         input_date = input("Enter a due date (YYYY-MM-DD): ")
         due_date = datetime.datetime.strptime(input_date, "%Y-%m-%d").date()
-        # task = Task(task_title, task_description, due_date)
-        # task_list.add_task(task)
-        # print(f"'{task_title}' has been added to your to-do list.\n")
         break
     return task_title, task_description, due_date
 def main() -> None:
@@ -60,7 +57,6 @@ def main() -> None:
     print("----Welcome to the To-Do List Manager----\n")
     
     name = input("Enter your name: ")
-    
     email = input("Enter your email: ")
     
     owner = Owner(name, email)

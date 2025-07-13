@@ -21,7 +21,21 @@ class RecurringTask(Task):
         Returns:
         datetime.datetime: The next due date of the task.
         """
-        return self.date_due + self.interval
+        # If task has been completed before, calculate next due from last completion
+        if self.completed_dates:
+            return self.completed_dates[-1] + self.interval
+        # Otherwise calculate from existing due date
+        return self.due_date + self.interval
+    def mark_completed(self) -> None:
+        # Add today's date to completed history
+        today = datetime.date.today()
+        self.completed_dates.append(today)
+
+        # Update due date to next scheduled one
+        self.due_date = self._compute_next_due_date()
+
+        # Mark as completed (from parent)
+        self.completed = True
     def __str__(self):
         
         if 'days' in str(self.interval):
@@ -29,3 +43,11 @@ class RecurringTask(Task):
         
         # this will use the string method of parent class and then concatenate the new attribute
         return super().__str__() + f" | interval: {self.interval} days"
+    def __eq__(self, other):
+        return (
+            isinstance(other, Task)
+            and self.title == other.title
+            and self.due_date == other.due_date
+            and self.description == other.description
+            and self.interval == other.interval
+        )

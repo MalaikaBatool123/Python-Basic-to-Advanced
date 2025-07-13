@@ -4,9 +4,12 @@ from task import Task
 from task_factory import TaskFactory
 from TaskCsvDAO import TaskCsvDAO
 from TaskPickleDAO import TaskPickleDAO
+from owner import Owner
+# from ui.command_line_ui import file_path, file_path_pkl
+import config
 class TaskManagerController:
-    def __init__(self, user_name):
-        self.task_list = TaskList(user_name)
+    def __init__(self, owner):
+        self.task_list = TaskList(owner)
 
     def add_task(self, title, desc, due_date, interval=None):
         if interval:
@@ -22,12 +25,17 @@ class TaskManagerController:
     def remove_task(self, index: int) -> None:
         if index < 1 or index > len(self.task_list.tasks):
             raise IndexError("That task number doesn't exist.")
+        task = self.task_list.get_task(index)
+        if not task:
+            raise IndexError("That task number doesn't exist.")
 
-        removed_title = self.task_list.tasks[index - 1].title
+        removed_title = task.title
+        # removed_title = self.task_list.tasks[index - 1].title
+        
         self.task_list.remove_task(index)
 
         # Remove from CSV
-        dao = TaskCsvDAO("tasks.csv")
+        dao = TaskCsvDAO(config.file_path)
         dao.remove_task_by_title(removed_title)
         
 
@@ -37,38 +45,55 @@ class TaskManagerController:
     def mark_task_completed(self, index: int):
         if index < 1 or index > len(self.task_list.tasks):
             raise IndexError("Invalid index")
-
-        old_title = self.task_list.tasks[index - 1].title
-        self.task_list.tasks[index - 1].mark_completed()
-        dao = TaskCsvDAO("tasks.csv")
-        dao.update_task(self
-                        .task_list.tasks[index - 1], old_title)
+        # getting task object by using get_task() method
+        task = self.task_list.get_task(index)
+        if not task:
+            raise IndexError("That task number doesn't exist.")
+        
+        old_title = task.title
+        task.mark_completed()
+        dao = TaskCsvDAO(config.file_path)
+        dao.update_task(task, old_title)
 
     def change_task_title(self, index: int, new_title: str):
         if index < 1 or index > len(self.task_list.tasks):
             raise IndexError("Invalid index")
-
-        old_title = self.task_list.tasks[index - 1].title
-        self.task_list.tasks[index - 1].change_title(new_title)
-        dao = TaskCsvDAO("tasks.csv")
-        dao.update_task(self.task_list.tasks[index - 1], old_title)
+        # getting task object by using get_task() method
+        task = self.task_list.get_task(index)
+        if not task:
+            raise IndexError("That task number doesn't exist.")
+        
+        old_title = task.title
+        task.change_title(new_title)
+        dao = TaskCsvDAO(config.file_path)
+        dao.update_task(task, old_title)
 
     def change_task_description(self, index: int, new_desc: str):
         if index < 1 or index > len(self.task_list.tasks):
             raise IndexError("Invalid index")
+        # getting task object by using get_task() method
+        task = self.task_list.get_task(index)
+        if not task:
+            raise IndexError("That task number doesn't exist.")
+        
 
-        old_title = self.task_list.tasks[index - 1].title
-        self.task_list.tasks[index - 1].change_description(new_desc)        
-        dao = TaskCsvDAO("tasks.csv")
-        dao.update_task(self.task_list.tasks[index - 1], old_title)
+        old_title = task.title
+        task.change_description(new_desc)        
+        dao = TaskCsvDAO(config.file_path)
+        dao.update_task(task, old_title)
         
     def change_due_date(self, index, new_date):
         if index < 1 or index > len(self.task_list.tasks):
             raise IndexError("Invalid index")
-        old_title = self.task_list.tasks[index - 1].title
-        self.task_list.tasks[index - 1].change_due_date(new_date)
-        dao = TaskCsvDAO("tasks.csv")
-        dao.update_task(self.task_list.tasks[index - 1], old_title)
+        # getting task object by using get_task() method
+        task = self.task_list.get_task(index)
+        if not task:
+            raise IndexError("That task number doesn't exist.")
+        
+        old_title = task.title
+        task.change_due_date(new_date)
+        dao = TaskCsvDAO(config.file_path)
+        dao.update_task(task, old_title)
 
     def view_over_due_tasks(self):
         self.task_list.view_over_due_tasks()
@@ -88,7 +113,8 @@ class TaskManagerController:
         
         dao.save_all_tasks(self.task_list.tasks)
     def get_task(self, index):
-        return self.task_list.tasks[index - 1]
+        task = self.task_list.get_task(index)
+        return task
     def load_tasks_from_pickle(self, path: str):
         dao = TaskPickleDAO(path)
         tasks = dao.get_all_tasks()
@@ -98,3 +124,5 @@ class TaskManagerController:
         dao = TaskPickleDAO(path)
         dao.save_all_tasks(self.task_list.tasks)
 
+    def get_owner(self) -> Owner:
+        return self.task_list.owner

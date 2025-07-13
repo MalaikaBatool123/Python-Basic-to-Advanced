@@ -6,13 +6,15 @@ class TaskTestDAO:
     def __init__(self, storage_path: str) -> None:
         self.storage_path = storage_path
     def get_all_tasks(self) -> list[Task]:
+        
+        # sample one-time tasks
         task_list =[
-        Task("Buy groceries",'description it is', datetime.datetime.now() - datetime.timedelta(days=4)),
-        Task("Do laundry",'description it is', datetime.datetime.now() - datetime.timedelta(days=-2)),
-        Task("Clean room",'description it is', datetime.datetime.now() + datetime.timedelta(days=-1)),
-        Task("Do homework",'description it is', datetime.datetime.now() + datetime.timedelta(days=3)),
-        Task("Walk dog",'description it is', datetime.datetime.now() + datetime.timedelta(days=5)),
-        Task("Do dishes",'description it is', datetime.datetime.now() + datetime.timedelta(days=6))
+        Task("Buy groceries", "Milk, eggs, and bread", datetime.datetime.now().date() - datetime.timedelta(days=4)),
+        Task("Do laundry", "Wash and fold clothes", datetime.datetime.now().date() + datetime.timedelta(days=2)),
+        Task("Clean room", "Organize desk and vacuum floor", datetime.datetime.now().date() - datetime.timedelta(days=1)),
+        Task("Do homework", "Finish math and science assignments", datetime.datetime.now().date() + datetime.timedelta(days=3)),
+        Task("Walk dog", "Evening walk around the park", datetime.datetime.now().date() + datetime.timedelta(days=5)),
+        Task("Do dishes", "Clean all utensils after dinner", datetime.datetime.now().date() + datetime.timedelta(days=6))
         ]
         # sample recurring task
         r_task = RecurringTask("Go to the gym", datetime.datetime.now(),datetime.timedelta(days=7), 8)

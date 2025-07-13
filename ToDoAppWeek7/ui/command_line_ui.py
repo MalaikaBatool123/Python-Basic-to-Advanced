@@ -4,11 +4,15 @@ from task_factory import TaskFactory
 import datetime
 from TaskCsvDAO import TaskCsvDAO
 from TaskPickleDAO import TaskPickleDAO
+from owner import Owner
 
+import config
 class CommandLineUI:
     def __init__(self):
         name = input("Enter your name: ")
-        self.controller = TaskManagerController(name)
+        email = input("Enter your email: ")
+        owner = Owner(name, email)
+        self.controller = TaskManagerController(owner)
     def run(self):
         while True:
             self._print_menu()
@@ -40,6 +44,10 @@ class CommandLineUI:
             elif choice == "12":
                 self._save_tasks_to_pickle()
             elif choice == "13":
+                owner = self.controller.get_owner()
+                print(f"Owner Name: {owner.name}")
+                print(f"Owner Email: {owner.email}")
+            elif choice == "14":
                 print("Quit")
                 break
             else:
@@ -59,11 +67,15 @@ class CommandLineUI:
         print("10. Save Tasks to CSV")
         print("11. Load Data from Pickle File")
         print("12. Save Data to Pickle File")
-        print("13. Quit")
+        print("13. Get Owner Details")
+        print("14. Quit")
+        
     def _get_task_details(self):
         title = input("Enter task title: ")
         desc = input("Enter task description: ")
+        # input date in string
         date_str = input("Enter due date (YYYY-MM-DD): ")
+        # converting string date into date object
         due_date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
         return title, desc, due_date
 
@@ -207,33 +219,41 @@ class CommandLineUI:
                 print("Invalid input. Please enter a number like 1, 2, 3...\n")     
     
     def _load_tasks_from_csv(self):
-        path = input("Enter file path to load tasks (e.g. tasks.csv): ")
+        if (not config.file_path):
+            config.file_path = input("Enter file path to load tasks (e.g. tasks.csv): ")
+       
         try:
-            self.controller.load_tasks_from_csv(path)
+            self.controller.load_tasks_from_csv(config.file_path)
             print("[✓] Tasks loaded from file.\n")
         except Exception as e:
             print(f"[!] Failed to load tasks: {e}\n")
 
     def _save_tasks_to_csv(self):
-        path = input("Enter file path to save tasks (e.g. tasks.csv): ")
+        if (not config.file_path):
+            config.file_path = input("Enter file path to load tasks (e.g. tasks.csv): ")
+       
         try:
-            self.controller.save_tasks_to_csv(path)
+            self.controller.save_tasks_to_csv(config.file_path)
             print("[✓] Tasks saved to file.\n")
         except Exception as e:
             print(f"[!] Failed to save tasks: {e}\n")
             
     def _load_tasks_from_pickle(self):
-        path = input("Enter pickle file path to load from (e.g. tasks.pkl): ")
+        if (not config.file_path_pkl):
+            config.file_path_pkl = input("Enter file path to load tasks (e.g. tasks.pkl): ")
+       
         try:
-            self.controller.load_tasks_from_pickle(path)
+            self.controller.load_tasks_from_pickle(config.file_path_pkl)
             print("[✓] Tasks loaded from pickle.\n")
         except Exception as e:
             print(f"[!] Failed to load tasks: {e}\n")
 
     def _save_tasks_to_pickle(self):
-        path = input("Enter pickle file path to save to (e.g. tasks.pkl): ")
+        if (not config.file_path_pkl):
+            config.file_path_pkl = input("Enter file path to load tasks (e.g. tasks.pkl): ")
+       
         try:
-            self.controller.save_tasks_to_pickle(path)
+            self.controller.load_tasks_from_pickle(config.file_path_pkl)
             print("[✓] Tasks saved to pickle.\n")
         except Exception as e:
             print(f"[!] Failed to save tasks: {e}\n")

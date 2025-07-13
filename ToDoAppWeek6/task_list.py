@@ -75,7 +75,7 @@ class TaskList:
         print("\n")
     
     
-    def get_task_by_titile(self, title: str) -> Task:
+    def get_task_by_title(self, title: str) -> Task:
         for task in self.tasks:
             if task.title == title:
                 return task
