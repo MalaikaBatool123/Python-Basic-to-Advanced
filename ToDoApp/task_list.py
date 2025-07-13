@@ -42,8 +42,10 @@ class TaskList:
                     
         over_due_tasks = []
         today = datetime.date.today()
+        
         # if date of any task is passed already
         for index, task in enumerate(self.tasks, start=1):
+            
             if task.due_date < today:
                 over_due_tasks.append((index, task))
         #  Display overdue tasks if found

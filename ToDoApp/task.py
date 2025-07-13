@@ -1,6 +1,6 @@
 import datetime
 class Task:
-    def __init__(self, title:str, description:str, due_date) -> None:
+    def __init__(self, title:str, description:None, due_date) -> None:
         self.title = title
         self.description = description
         self.completed = False
@@ -16,8 +16,10 @@ class Task:
         self.completed = True
     def change_title(self, new_title) -> None:
         self.title = new_title
+        
     def change_description(self, new_description) -> None:
         self.description = new_description
+        
     def change_due_date(self, new_date)-> None:
         self.due_date = new_date
 

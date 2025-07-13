@@ -14,12 +14,12 @@ def spacing():
 
 def propagate_task_list(task_list: TaskList) -> TaskList:
     """Adds some sample tasks to the task list for testing."""
-    task_list.add_task(Task("Buy groceries", "Milk, eggs, and bread", datetime.datetime.now() - datetime.timedelta(days=4)))
-    task_list.add_task(Task("Do laundry", "Wash and fold clothes", datetime.datetime.now() + datetime.timedelta(days=2)))
-    task_list.add_task(Task("Clean room", "Organize desk and vacuum floor", datetime.datetime.now() - datetime.timedelta(days=1)))
-    task_list.add_task(Task("Do homework", "Finish math and science assignments", datetime.datetime.now() + datetime.timedelta(days=3)))
-    task_list.add_task(Task("Walk dog", "Evening walk around the park", datetime.datetime.now() + datetime.timedelta(days=5)))
-    task_list.add_task(Task("Do dishes", "Clean all utensils after dinner", datetime.datetime.now() + datetime.timedelta(days=6)))
+    task_list.add_task(Task("Buy groceries", "Milk, eggs, and bread", datetime.datetime.now().date() - datetime.timedelta(days=4)))
+    task_list.add_task(Task("Do laundry", "Wash and fold clothes", datetime.datetime.now().date() + datetime.timedelta(days=2)))
+    task_list.add_task(Task("Clean room", "Organize desk and vacuum floor", datetime.datetime.now().date() - datetime.timedelta(days=1)))
+    task_list.add_task(Task("Do homework", "Finish math and science assignments", datetime.datetime.now().date() + datetime.timedelta(days=3)))
+    task_list.add_task(Task("Walk dog", "Evening walk around the park", datetime.datetime.now().date() + datetime.timedelta(days=5)))
+    task_list.add_task(Task("Do dishes", "Clean all utensils after dinner", datetime.datetime.now().date() + datetime.timedelta(days=6)))
     return task_list
 
 def main() -> None:
