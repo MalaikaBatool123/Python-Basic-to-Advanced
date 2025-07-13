@@ -7,4 +7,5 @@ Walk dog,Task,12/3/2024,FALSE,,,7/3/2024
 Do dishes,Task,13/03/2024,FALSE,,,7/3/2024
 Go to the gym,RecurringTask,7/3/2024,FALSE,"7 days, 0:00:00","2024-02-29,2024-02-22,2024-02-14",8/2/2024
 Buy groceries,Task,7/9/2025,FALSE,,,13/07/2025
-t new,Task,2022-02-02,False,,,13/07/2025
+t new,Task,2/2/2022,FALSE,,,13/07/2025
+charge phone,Task,2025-01-01,False,,,14/07/2025
