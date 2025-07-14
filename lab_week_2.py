@@ -321,6 +321,7 @@ print('\n\n')
 
 
 """Exercise 3"""
+print("Exercise 3\n")
 # Loop Keywords: Range, break and continue
 
 # range()
@@ -328,7 +329,8 @@ print('\n\n')
 # or want to perform a task a certain number of times
 for number in range(1, 6):
     print(number)
-    
+  
+print('\n\n')  
 # break
 # it will stop the loop from running any more iterations
 for i in range(5):
@@ -336,11 +338,13 @@ for i in range(5):
         break   
     print(i)
 
+print('\n\n')
 # Task: print the numbers 0 through 4, but stop the loop when i is equal to 3
 for i in range(5):
     if i == 3:
         break
     print(i)
+print('\n\n')
 
 # Continue
 # it will skip the current iteration and continue to the next iteration
@@ -351,7 +355,7 @@ for i in range(5):
     
 print('\n\n')
 
-
+print('\n\n')
 """Exercise 4"""
 
 # Task: Print Even Numbers from a List
@@ -407,34 +411,48 @@ print('\n\n')
 
 # input()
 # function is used to take input from the user
+
+# Ask the user to type anything. This value is stored as a string in 'user_input'.
 user_input = input("Enter something: ")
+
+# Show the exact thing the user typed.
 print("You entered:", user_input)
 
-
+# -------------------------------
 # Example - entering a number
+# -------------------------------
+
+# Ask the user how old they are (input comes in as text)
 age = input("How old are you? ")
-# Convert the age to an integer
+
+# Convert the string input to an integer so I can do math with it
 age = int(age)
+
+# Add 1 to the age and print what the user's age will be next year
 next_year_age = age + 1
 print("Next year, you'll be", next_year_age, "years old.")
 
 print('\n\n')
 
+
+# -------------------------------
 # Task: User Input and Conditionals
+# -------------------------------
+
 print("Task: User Input and Conditionals\n")
 
-# Ask the user to enter their age
+# Ask the user to enter their age again
 age = int(input("Enter your age: "))
 
-# Check which age group they belong to
+# Use conditions to determine their age group
 if age < 18:
-    print("You are a minor.")
+    print("You are a minor.")  # If they're under 18
 elif age <= 65:
-    print("You are an adult.")
+    print("You are an adult.")  # Between 18 and 65
 else:
-    print("You are a senior citizen.")
-
-
+    print("You are a senior citizen.")  # Over 65
+    
+    
 print('\n\n')
 
 # Task: Temperature Converter with user input and options
