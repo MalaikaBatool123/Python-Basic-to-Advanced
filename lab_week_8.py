@@ -1,19 +1,26 @@
 from abc import ABC, abstractmethod
 from random import randint
 
+print("\n\n")
 # ---------- Task 1: Tuples ----------
 # Swapping values of a and b using tuple unpacking
 
 a = 5
 b = 10
 
+print("Before swapping:")
+print("a =", a)
+print("b =", b)
+
 # Swap using tuple (Pythonic way)
-a, b = b, a
+a, b = b, a  # This one-liner swaps the values of a and b without needing a temporary variable
 
 print("After swapping:")
 print("a =", a)
 print("b =", b)
 
+
+print("\n\n")
 
 # ---------- Task 2: Sets ----------
 # Finding common names in two sets
@@ -22,11 +29,10 @@ set1 = {"Tom", "Jerry", "Hewey", "Dewey", "Louie"}
 set2 = {"Tom", "Garfield", "Snoopy", "Hewey", "Dewey"}
 
 # Use set intersection to get names present in both sets
-common_names = set1 & set2
+common_names = set1 & set2  # The & operator gives us only those elements that exist in both sets
 
 print("\nNames in both sets:")
 print(common_names)
-
 
 # ---------- Task 3: Dictionaries ----------
 # Function that counts occurrences of items in a list
@@ -49,15 +55,16 @@ print(histogram(my_list))
 assert histogram(my_list) == {1: 2, 2: 2, 3: 2, 4: 1}
 
 
+
 # ---------- Task 4: Abstract Class ----------
-class Dice(ABC):
+class Dice(ABC):  # Inherits from Abstract Base Class
     def __init__(self) -> None:
-        self.face = None
+        self.face = None  # All dice will have a face attribute
+
     @abstractmethod
     def roll(self) -> int:
-        pass
-
-
+        pass  # Child classes must implement this method
+    
 class SixSidedDice(Dice):
     def roll(self) -> int:
         self.face = randint(1, 6)
