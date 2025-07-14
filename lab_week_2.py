@@ -16,42 +16,41 @@ print('\n\n\n')
 # Comparison Operators
 
 # example 1
-is_true = False
-print("is_true:", is_true)
+is_true = False  # A boolean value is directly assigned
+print("is_true:", is_true)  # Displays: False
 
 # example 2
-is_true = 5 > 4
-print("5 > 4:", is_true)
+is_true = 5 > 4  # Comparison: checks if 5 is greater than 4 (True)
+print("5 > 4:", is_true)  # Displays: True
 
 # example 3
 a = 5
 b = 10
 
-print(a == b)   # False
-print(a != b)   # True
-print(a <= b)   # True
-print(a >= b)   # False
+print(a == b)   # Checks if a equals b 
+print(a != b)   # Checks if a is not equal to b 
+print(a <= b)   # Checks if a is less than or equal to b 
+print(a >= b)   # Checks if a is greater than or equal to b 
 
 
 
 print('\n\n')
 
+
 """Exercise 2"""
 # Logical Operators
-
 # example 1
 age = 25
-is_in_age_range = age > 20 and age < 30
-
-print("is_in_age_range:", is_in_age_range)
+is_in_age_range = age > 20 and age < 30  # Checks if age is between 21 and 29
+print("is_in_age_range:", is_in_age_range)  # True because 25 fits the condition
 
 # example 2
 x = 5
 y = 10
 
-print(x > 0 and y > 0)    # True
-print(x > 0 or y < 0)     # True
-print(not(x > 0))         # False
+print(x > 0 and y > 0)    # Both x and y are greater than 0 → True
+print(x > 0 or y < 0)     # At least one condition is True → True
+print(not(x > 0))         # x > 0 is True, but 'not' changes it to False
 
 
 print('\n\n')
@@ -63,47 +62,46 @@ age = 19
 age_group = "child"
 if age > 18:
     age_group = "adult"
-    print(f"The age group is {age_group}")
+    print(f"The age group is {age_group}")  # Will print: The age group is adult
 
 # example 2
 age = 13
 age_group = "child"
 if age > 18:
     age_group = "adult"
-    print(f"The age group is {age_group}")
-
+    print(f"The age group is {age_group}")  # Condition fails, so nothing is printed
 
 print('\n\n')
 
 """Exercise 4"""
 # If-else Conditionals
-
 # example 1
 wind_speed = 30
 if wind_speed < 10:
-    print("It is a calm day")
+    print("It is a calm day")  # Not true → skipped
 else:
-    print("It is a windy day")
-    
+    print("It is a windy day")  # Executed → prints this
+
 # example 2
 wind_speed = 5
 if wind_speed < 10:
-    print("It is a calm day")
+    print("It is a calm day")  # True → this line prints
 else:
-    print("It is a windy day")
+    print("It is a windy day")  # Skipped
+
+print('\n\n')  # Adds space in output
 
 print('\n\n')
 
 
 """Exercise 5"""
 # If-elif-else Conditionals
-
 # example 1
 grade = 55
 if grade < 50:
     print("You failed")
 elif grade < 60:
-    print("You passed")
+    print("You passed")  # True, so this prints
 elif grade < 70:
     print("You got a good pass")
 else:
@@ -112,7 +110,7 @@ else:
 # example 2
 grade = 40
 if grade < 50:
-    print("You failed")
+    print("You failed")  # This one matches → prints
 elif grade < 60:
     print("You passed")
 elif grade < 70:
@@ -127,7 +125,7 @@ if grade < 50:
 elif grade < 60:
     print("You passed")
 elif grade < 70:
-    print("You got a good pass")
+    print("You got a good pass")  # Matches → prints this
 else:
     print("You got an excellent pass")
 
@@ -140,8 +138,9 @@ elif grade < 60:
 elif grade < 70:
     print("You got a good pass")
 else:
-    print("You got an excellent pass")
-    
+    print("You got an excellent pass")  # This one matches → prints this
+
+print('\n\n')
 
 print('\n\n')
 
