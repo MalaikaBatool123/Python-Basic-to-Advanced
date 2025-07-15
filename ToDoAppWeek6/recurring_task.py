@@ -50,3 +50,4 @@ class RecurringTask(Task):
             and self.description == other.description
             and self.interval == other.interval
         )
+    

@@ -275,9 +275,18 @@ def main() -> None:
             # path = input("Enter file path to load tasks e.g. tasks.txt: ")
             dao = TaskCsvDAO(file_path)
             # dao = TaskTestDAO(path)
-            
+            # existing_titles = [task.title for task in task_list.tasks]
+            existing_titles = [task.title for task in task_list.tasks]
+
             # Load tasks from DAO and add to task list
             loaded_tasks = dao.get_all_tasks()
+            # for task in loaded_tasks:
+            #     if task.title not in existing_titles:
+            #         task_list.add_task(task)
+            # print('loading data from file...')
+            
+            # Load tasks from DAO and add to task list
+            # loaded_tasks = dao.get_all_tasks()
             for task in loaded_tasks:
                 if task not in task_list.tasks:
                     task_list.add_task(task)
@@ -299,11 +308,17 @@ def main() -> None:
             if(not file_path_pkl):
                 file_path_pkl = input("Enter file path to load tasks (e.g. tasks.pkl): ")
             # path = input("Enter pickle file path to load from (e.g. tasks.pkl): ")
-           
+            existing_titles = [task.title for task in task_list.tasks]
+
+            
             dao = TaskPickleDAO(file_path_pkl)
             tasks = dao.get_all_tasks()
             for task in tasks:
                 task_list.add_task(task)
+            # print("[✓] Tasks loaded from pickle.")
+            # for task in loaded_tasks:
+            #     if task.title not in existing_titles:
+            #         task_list.add_task(task)
             print("[✓] Tasks loaded from pickle.")
 
         elif choice == "12":
